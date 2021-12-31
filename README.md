@@ -1,2 +1,2 @@
-# go-learning
+# Golang 연습 2021-12-31~
  
