@@ -8,6 +8,7 @@
 >   * ```go   
 >       names := []string{"K", "L", "P"}
 >       names = append(names, "J") // List에 추가하기
+>       kunwoo := map[string]string{"name": "kunwoo", "age": "29"} // key, value형 리스트 
 >       ```
 >* 
 
