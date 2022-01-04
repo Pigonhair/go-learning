@@ -83,3 +83,11 @@
 >               fmt.Println(err)
 >           }
 >        }
+> ## 2022-01-04정리
+>* Go가 struct를 자동호출 해주는 method가 있는데, 그중 하나가 'String()'이다   
+> 예시)
+>   * ```Go
+>        func (a Account) String() string {
+>           return fmt.Sprint(a.Owner(), "'s account.\nHas: ", a.Balance())
+>        }
+>     ```   
