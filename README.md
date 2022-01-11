@@ -31,10 +31,10 @@
 > 
 > <img src="https://user-images.githubusercontent.com/75151693/148901904-0b0d46f5-dab8-4067-91b3-547ca5197562.png" width="20%" height="10%">
 > 
->　　　　아무것도 뜨지 않는다. 이유가 뭘까? 메인함수는 다른 goroutines을 기다려 주지 않아서, 메서드가 둘다 goroutines라면, 
+>　　　　아무것도 뜨지 않는다. 이유가 뭘까? 메인함수는 다른 goroutines을 기다려 주지 않아서, 메서드가 둘다 goroutines라면,    
 >　　　　메인함수가 할 게 없어진다. 따라서 프로그램도 종료된다.    
 >
->　　　　하지만 두번째에선 왜 실행이 되었을까? 그 이유는 메인 함수가 goroutines이 아닌 flynn을 카운팅하고 있기 때문이다.   
+>　　　　하지만 두번째에선 왜 실행이 되었을까? 그 이유는 메인 함수가 goroutines이 아닌 flynn을 카운팅하고 있기 때문이다.      
 >　　　　그런데 두개의 메서드를 모두 goroutines로 실행시키는 방법이 있다.
 >   ```go
 >   func main() {
@@ -43,7 +43,7 @@
 >       time.Sleep(time.Second * 5)
 >       }
 >   ```
->　　　　이런식으로 time.Sleep을 걸게되면 해당시간동안은 goroutines는 살아있게 되고, 그 이후엔 메인 함수는 종료된다.   
+>　　　　이런식으로 time.Sleep을 걸게되면 해당시간동안은 goroutines는 살아있게 되고, 그 이후엔 메인 함수는 종료된다.      
 >　　　　또 그와 동시에 goroutines도 같이 끝이난다.
 
 >* Channel은 goroutine이랑 메인함수 사이에 정보를 전달하기 위한 방법이다.   
