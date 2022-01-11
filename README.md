@@ -45,3 +45,6 @@
 >   ```
 >　　　　이런식으로 time.Sleep을 걸게되면 해당시간동안은 goroutines는 살아있게 되고, 그 이후엔 메인 함수는 종료된다.   
 >　　　　또 그와 동시에 goroutines도 같이 끝이난다.
+
+>* Channel은 goroutine이랑 메인함수 사이에 정보를 전달하기 위한 방법이다.   
+>* 또는 goroutine에서 다른 goroutine으로 커뮤니케이션도 가능하다.
