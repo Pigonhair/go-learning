@@ -43,5 +43,5 @@
 >       time.Sleep(time.Second * 5)
 >       }
 >   ```
->　　　　이런식으로 time.Sleep을 걸게되면 해당시간동안은 goroutines는 살아있게 되고, 그 이후엔 메인 함수는 종료된다. 
+>　　　　이런식으로 time.Sleep을 걸게되면 해당시간동안은 goroutines는 살아있게 되고, 그 이후엔 메인 함수는 종료된다.   
 >　　　　또 그와 동시에 goroutines도 같이 끝이난다.
