@@ -2,22 +2,21 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/Pigonhair/go-learning/mydict"
+	"time"
 )
 
 func main() {
-	dictionary := mydict.Dictionary{}
-	baseWord := "hello"
-	dictionary.Add(baseWord, "First")
-	err := dictionary.Update(baseWord, "Second")
-	if err != nil {
-		fmt.Println(err)
+	c := make(chan bool)
+	people := [2]string{"nico", "flynn"}
+	for _, person := range people {
+		go isSexy(person, c)
 	}
-	dictionary.Search(baseWord)
-	fmt.Println(dictionary)
-	dictionary.Delete(baseWord)
-	word, _ := dictionary.Search(baseWord)
-	fmt.Println(dictionary)
-	fmt.Println(word)
+	fmt.Println(<-c)
+	fmt.Println(<-c)
+}
+
+func isSexy(person string, c chan bool) {
+	time.Sleep(time.Second * 5)
+	fmt.Println(person)
+	c <- true
 }
