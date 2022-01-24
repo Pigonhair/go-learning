@@ -1,104 +1,24 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"strconv"
 	"strings"
 
-	"github.com/PuerkitoBio/goquery"
+	"github.com/Pigonhair/go-learning/scrapper"
+	"github.com/labstack/echo"
 )
 
-type extractedJob struct {
-	id       string
-	title    string
-	location string
-	salary   string
-	summary  string
+func handleHome(c echo.Context) error {
+	return c.File("home.html")
 }
 
-var baseURL string = "https://kr.indeed.com/jobs?q=python&limit=50"
+func handleScrape(c echo.Context) error {
+	term := strings.ToLower(scrapper.CleanString(c.FormValue("term")))
+	return nil
+}
 
 func main() {
-	var jobs []extractedJob
-	totalPages := getPages()
-
-	for i := 0; i < totalPages; i++ {
-		extractedJobs := getPage(i)
-		jobs = append(jobs, extractedJobs...)
-	}
-
-	fmt.Println(jobs)
-}
-
-func getPage(page int) []extractedJob {
-	var jobs []extractedJob
-	pageURL := baseURL + "&start=" + strconv.Itoa(page*50)
-	fmt.Println("Requesting", pageURL)
-	res, err := http.Get(pageURL)
-	checkErr(err)
-	checkCode(res)
-
-	defer res.Body.Close() // 메모리가 새어나가는 것을 막을 수 있다.
-
-	doc, err := goquery.NewDocumentFromReader(res.Body)
-	checkErr(err)
-
-	searchCards := doc.Find(".tapItem")
-
-	searchCards.Each(func(i int, card *goquery.Selection) {
-		job := extractJob(card)
-		jobs = append(jobs, job)
-	})
-
-	return jobs
-}
-
-func extractJob(card *goquery.Selection) extractedJob {
-	id, _ := card.Attr("id")
-	title := cleanString(card.Find("h2>span").Text())
-	location := cleanString(card.Find("div pre").Text())
-	salary := cleanString(card.Find(".salary-snippet").Text())
-	summary := cleanString(card.Find(".job-snippet").Text())
-	return extractedJob{
-		id:       id,
-		title:    title,
-		location: location,
-		salary:   salary,
-		summary:  summary}
-}
-
-func cleanString(str string) string {
-	return strings.Join(strings.Fields(strings.TrimSpace(str)), " ")
-}
-
-func getPages() int {
-	pages := 0
-	res, err := http.Get(baseURL)
-	checkErr(err)
-	checkCode(res)
-
-	defer res.Body.Close() // 메모리가 새어나가는 것을 막을 수 있다.
-
-	doc, err := goquery.NewDocumentFromReader(res.Body)
-	checkErr(err)
-
-	doc.Find(".pagination").Each(func(i int, s *goquery.Selection) {
-		pages = s.Find("a").Length()
-	})
-
-	return pages
-}
-
-func checkErr(err error) {
-	if err != nil {
-		log.Fatalln(err)
-	}
-}
-
-func checkCode(res *http.Response) {
-	if res.StatusCode != 200 {
-		log.Fatalln("Request failed with Status:", res.StatusCode)
-	}
+	e := echo.New()
+	e.GET("/", handleHome)
+	e.POST("/scrape", handleScrape)
+	e.Logger.Fatal(e.Start(":1323"))
 }
